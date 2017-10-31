@@ -23,29 +23,6 @@ def _pluck(identities, indices, relabel=False):
     return ret
 
 
-def split_dataset(dataset,train_ratio=0.2,seed=0):
-    """
-    split dataset to train_set and untrain_set
-    """
-    assert 0 <= train_ratio <= 1
-    train_set = []
-    untrain_set = []
-    np.random.seed(seed)
-    pids = np.array([data[1] for data in dataset])
-    clss = np.unique(pids)
-    assert len(clss) == 751
-    for cls in clss:
-        indices = np.where(pids == cls)[0]
-        np.random.shuffle(indices)
-        train_num = int(np.ceil((len(indices) * train_ratio)))
-        train_set += [dataset[i] for i in indices[:train_num]]
-        untrain_set += [dataset[i] for i in indices[train_num:]]
-    cls1 = np.unique([d[1] for d in train_set])
-    cls2 = np.unique([d[1] for d in untrain_set])
-    assert len(cls1) == len(cls2) and len(cls1) == 751
-    return train_set,untrain_set
-
-
 class Market1501_STD(Dataset):
     url = 'https://drive.google.com/file/d/0B8-rUzbwVRk0c054eEozWG9COHM/view'
     md5 = '65005ab7d12ec1c44de4eeafe813e68a'
@@ -92,7 +69,6 @@ class Market1501_STD(Dataset):
             pid,cam,_ = map(int,name.split('_'))
             return (fname,pid,cam)
 
-        self.train, self.untrain = split_dataset(self.trainval)
         self.query = [get_pid_camid(fname)
                       for fname in self.split['query']]
         self.gallery = [get_pid_camid(fname)
@@ -102,10 +78,6 @@ class Market1501_STD(Dataset):
             print(self.__class__.__name__, "dataset loaded")
             print("  subset   | # ids | # images")
             print("  ---------------------------")
-            print("  train    | {:5d} | {:8d}"
-                  .format(self.num_trainval_ids, len(self.train)))
-            print("  untrain  | {:5d} | {:8d}"
-                  .format(self.num_trainval_ids, len(self.untrain)))
             print("  val      | {:5d} | {:8d}"
                   .format(self.num_val_ids, len(self.val)))
             print("  trainval | {:5d} | {:8d}"
