@@ -1,4 +1,4 @@
-# Self-paced Multi-view Co-training
+# Self-paced Multi-view Co-training for person re-id experiment
 
 ## Run
 ```shell
