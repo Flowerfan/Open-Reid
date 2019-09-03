@@ -1,5 +1,4 @@
-# Self-Paced Co-training Person-ReID
-Pytorch implementaion based on [Open-Reid](https://github.com/Cysu/open-reid.git)
+# Self-paced Multi-view Co-training
 
 ## Run
 ```shell
