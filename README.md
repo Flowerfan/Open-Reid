@@ -1,5 +1,7 @@
 # Self-paced Multi-view Co-training for person re-id experiment
 
+Thanks to Yanlu for implementing [spaco in matlab](https://github.com/syferya/SPaCo)
+
 ## Run
 ```shell
 bash spaco.sh
